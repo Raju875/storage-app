@@ -1,5 +1,5 @@
 """
-WSGI config for withered_sound_32033 project.
+WSGI config for storage_app project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'withered_sound_32033.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'storage_app.settings')
 
 application = get_wsgi_application()

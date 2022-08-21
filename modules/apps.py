@@ -4,4 +4,4 @@ from django.utils.translation import ugettext_lazy as _
 
 class ModulesConfig(AppConfig):
     name = 'modules'
-    verbose_name = _('Crowdbotics Modules')
+    verbose_name = _('Core Modules')

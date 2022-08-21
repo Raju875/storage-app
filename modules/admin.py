@@ -3,8 +3,6 @@ from pathlib import Path
 
 from django.conf import settings
 
-# BE CAREFUL! Do not remove or change this code snippet, this is needed to get
-# Crowdbotics' official modules working properly.
 
 try:
     modules_dir = f"{settings.BASE_DIR}/modules/"

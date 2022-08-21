@@ -1,4 +1,4 @@
-"""withered_sound_32033 URL Configuration
+"""storage_app URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -69,8 +69,8 @@ if settings.DEBUG:
     import debug_toolbar
 
     urlpatterns += [
-                       path('__debug__/', include(debug_toolbar.urls)),
-                   ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [path("", TemplateView.as_view(template_name='index.html'))]
 urlpatterns += [re_path(r"^(?:.*)/?$",
