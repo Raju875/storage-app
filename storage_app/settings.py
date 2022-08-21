@@ -31,7 +31,7 @@ DEBUG = env.bool("DEBUG", default=False)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str("SECRET_KEY")
 
-# ALLOWED_HOSTS = env.list("HOST", default=["*"])
+ALLOWED_HOSTS = env.list("HOST", default=["*"])
 SITE_ID = 1
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -74,8 +74,7 @@ THIRD_PARTY_APPS = [
 ]
 MODULES_APPS = get_modules()
 
-INSTALLED_APPS += LOCAL_APPS + THIRD_PARTY_APPS
-# + MODULES_APPS
+INSTALLED_APPS += LOCAL_APPS + THIRD_PARTY_APPS + MODULES_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -120,22 +119,15 @@ WSGI_APPLICATION = 'storage_app.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
-
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'iep1',
-        'USER': 'user',
-        'PASSWORD': '123456a@',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
     }
 }
 
-# if env.str("DATABASE_URL", default=None):
-#     DATABASES = {
-#         'default': env.db()
-#     }
+if env.str("DATABASE_URL", default=None):
+    DATABASES = {
+        'default': env.db()
+    }
 
 
 # Password validation
@@ -234,14 +226,12 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = "users.User"
 
 # Sendgrid mail config
-DEFAULT_FROM_EMAIL = env.str(
-    "DEFAULT_FROM_EMAIL", "raju@gmail.com")
-EMAIL_HOST = env.str("EMAIL_HOST", "smtp.sendgrid.net")
-EMAIL_HOST_USER = env.str("SENDGRID_USERNAME", "apikey")
-EMAIL_HOST_PASSWORD = env.str(
-    "SENDGRID_PASSWORD", "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")
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL")
+EMAIL_HOST = env.str("EMAIL_HOST")
+EMAIL_HOST_USER = env.str("SENDGRID_USERNAME")
+EMAIL_HOST_PASSWORD = env.str("SENDGRID_PASSWORD")
+EMAIL_PORT = env.str("EMAIL_PORT")
+EMAIL_USE_TLS = env.str("EMAIL_USE_TLS")
 
 
 # AWS S3 config
@@ -322,26 +312,3 @@ LOGGING = {
         }
     }
 } """
-
-SOCIALACCOUNT_PROVIDERS = {
-    "apple": {
-        "APP": {
-            # Your service identifier.
-            "client_id": "com.iep.kok",
-            # The Key ID (visible in the "View Key Details" page).
-            "secret": "Z778244UH5",
-            # Member ID/App ID Prefix -- you can find it below your name
-            # at the top right corner of the page, or it’s your App ID
-            # Prefix in your App ID.
-            "key": "JXV7C52N7N",
-            # The certificate you downloaded when generating the key.
-            "certificate_key": """-----BEGIN PRIVATE KEY-----
-MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgehBe5fsEw8froy9e
-aVhvlUgdwhGyH6AV0TmI9BUzSLKgCgYIKoZIzj0DAQehRANCAARrPU+//3LSRkZB
-c5VsHn3StCq8aqlgKYP9jOrWd43FwOd3s+StdVA/iwHmkJeuMBRza5E/RiBwVKbV
-iKwy+k4l
------END PRIVATE KEY-----"""
-
-        }
-    }
-}
