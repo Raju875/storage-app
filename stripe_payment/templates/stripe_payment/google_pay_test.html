@@ -1,0 +1,59 @@
+{% extends 'base_bs4.html' %}
+{% load staticfiles %}
+{% block head_scripts %}
+    <style>
+        #payment-request-button {
+            max-width: 300px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #payment-request-button .__PrivateStripeElement {
+            width: 100%;
+            max-width: 150px;
+            align-self: auto;
+        }
+    </style>
+    <script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header bg-info text-white d-flex">
+                <div>Total</div>
+                <div class="ml-auto text-white font-weight-bold">
+                    09
+                </div>
+            </div>
+            <div class="card-body">
+
+                <div id="payment-request-button">
+
+                </div>
+                <form id="payment-form">
+                    <div id="payment-element">
+                        <!--Stripe.js injects the Payment Element-->
+                    </div>
+
+                    <button id="submit">
+                        <div class="spinner hidden" id="spinner"></div>
+                        <span id="button-text">Pay now</span>
+                    </button>
+                    <div id="payment-message" class="hidden"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block body_scripts %}
+
+    <script>
+        const stripe = Stripe('{{publishable_key}}');
+        const cart_total_price = 999;
+    </script>
+    <script src="{% static 'stripe/checkout.js' %}" async></script>
+{% endblock %}
