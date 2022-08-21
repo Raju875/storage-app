@@ -1,6 +1,6 @@
 # withered_sound_32033
 
-This is a repository for a web application developed with Django, built with [Crowdbotics](https://crowdbotics.com)
+This is a repository for a web application developed with Django
 
 ## Table of Contents
 
@@ -17,8 +17,8 @@ This is a repository for a web application developed with Django, built with [Cr
 
     ..
     ├── home                           # Starter home app
-    ├── modules                        # Crowdbotics Modules app
-    ├── withered_sound_32033  # Django project configurations
+    ├── modules                        # Modules app
+    ├── withered_sound_32033           # Django project configurations
     ├── static                         # Static assets
     ├── users                          # Starter users app
     ├── web_build                      # React Native Web build
