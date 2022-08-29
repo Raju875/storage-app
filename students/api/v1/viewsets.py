@@ -24,6 +24,7 @@ class StudentViewSet(ModelViewSet):
         return Student.objects.select_related('user').filter(user=self.request.user)
 
     def perform_create(self, serializer):
+        self.request.session['student_session_test_key'] = 'student_session_test_value'
         student = serializer.save(user=self.request.user)
         Album.objects.create(student=student,
                              grade=student.grade,

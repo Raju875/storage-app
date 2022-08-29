@@ -222,6 +222,10 @@ REST_FRAMEWORK = {
     ]
 }
 
+# SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_ENGINE = 'django.contrib.sessions.backends.file'
+SESSION_FILE_PATH = os.path.join(BASE_DIR, 'mediafiles')
+
 # Custom user model
 AUTH_USER_MODEL = "users.User"
 

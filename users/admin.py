@@ -1,9 +1,11 @@
+from django.contrib.sessions.models import Session
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
 from django.contrib.auth import get_user_model
 
 from .models import Feedback
 from users.forms import UserChangeForm, UserCreationForm
+from modules.utils import *
 
 User = get_user_model()
 
@@ -28,3 +30,14 @@ class FeedbackAdmin(admin.ModelAdmin):
 
     def email(self, obj):
         return obj.user.email
+
+
+@admin.register(Session)
+class SessionAdmin(admin.ModelAdmin):
+    list_display = ['session_key', '_session_data', 'expire_date']
+    readonly_fields = ('_session_data',)
+    exclude = ['session_data']
+    list_per_page = 25
+
+    def _session_data(self, obj):
+        return json_style_prettify(obj.get_decoded())
