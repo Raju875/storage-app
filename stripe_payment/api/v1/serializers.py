@@ -64,13 +64,38 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
 
 
 class PaymentMethodDetailsSerializer(serializers.ModelSerializer):
-    api_details = serializers.JSONField(read_only=True)
-
     class Meta:
         model = PaymentMethod
-        fields = ['id', 'user', 'customer', 'payment_method_id', 'is_default', 'created_at', 'api_details']
+        fields = ['id', 'user', 'customer', 'payment_method_id', 'is_default', 'created_at']
 
-
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        from django.conf import settings
+        pricing_plan = retrieve_pricing_plan(settings.STRIPE_ANNUAL_PRICE_PLAN_ID)
+        product = retrieve_stripe_product(pricing_plan.product)
+        payment_method = retrieve_payment_method(instance.payment_method_id)
+        subscription_id = instance.customer.subscription_id
+        representation['product'] = {
+            'product_id': product.id,
+            'product_name': product.name,
+            'product_description': product.description,
+            'product_image': product.images,
+            'product_price_id': pricing_plan.id,
+            'currency': pricing_plan.currency,
+            'amount': int(pricing_plan.unit_amount / 100),
+            'billing_scheme': pricing_plan.billing_scheme,
+            'recurring': pricing_plan.recurring,
+        }
+        representation['payment_method'] = payment_method
+        representation['subscription'] = {
+            'subscription_id': subscription_id,
+            'is_trial': instance.customer.is_trial,
+            'is_active': instance.customer.is_active,
+            'is_cancel': instance.customer.is_cancel,
+        }
+        return representation
+    
+    
 class PaymentMethodUpdateSerializer(serializers.ModelSerializer):
     exp_month = serializers.IntegerField(write_only=True, required=True)
     exp_year = serializers.IntegerField(write_only=True, required=True)
