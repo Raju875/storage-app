@@ -26,38 +26,6 @@ class PaymentMethod(models.Model):
         verbose_name_plural = _('Payment Methods')
         ordering = ['-id']
 
-    def api_details(self):
-        try:
-            from django.conf import settings
-            pricing_plan = retrieve_pricing_plan(settings.STRIPE_ANNUAL_PRICE_PLAN_ID)
-            product = retrieve_stripe_product(pricing_plan.product)
-            payment_method = retrieve_payment_method(self.payment_method_id)
-            subscription_id = self.customer.subscription_id
-            return {
-                'payment_method': payment_method,
-                'product': {
-                    'product_id': product.id,
-                    'product_name': product.name,
-                    'product_description': product.description,
-                    'product_image': product.images,
-                    'product_price_id': pricing_plan.id,
-                    'currency': pricing_plan.currency,
-                    'amount': int(pricing_plan.unit_amount / 100),
-                    'billing_scheme': pricing_plan.billing_scheme,
-                    'recurring': pricing_plan.recurring,
-                },
-                'subscription': {
-                    'subscription_id': subscription_id,
-                    'is_trial': self.customer.is_trial,
-                    'is_active': self.customer.is_active,
-                    'is_cancel': self.customer.is_cancel,
-                }
-            }
-        except StripeError as e:
-            print(_(e.user_message + '[SP-175]'))
-        except Exception as e:
-            print(e + '[SP-176]')
-
 
 class StripePayment(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='stripe_payment')
